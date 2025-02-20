@@ -1,0 +1,16 @@
+[default]
+DEBUG = true
+
+[mysql]
+MYSQL_PASSWORD = "root1234"
+MYSQL_HOST = "localhost"
+MYSQL_PORT = 3306
+MYSQL_DATABASE = "senior_project"
+
+[redis]
+REDIS_PORT = 6379
+#MAIL_SERVER = "smtp.gmail.com"
+#MAIL_PORT = 587
+#MAIL_USE_TLS = true
+#MAIL_USERNAME = "khoatm20@gmail.com"
+#MAIL_PASSWORD = "qloj wxqc xbdy vrgl"

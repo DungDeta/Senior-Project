@@ -9,8 +9,9 @@ MYSQL_DATABASE = "senior_project"
 
 [redis]
 REDIS_PORT = 6379
-#MAIL_SERVER = "smtp.gmail.com"
-#MAIL_PORT = 587
-#MAIL_USE_TLS = true
-#MAIL_USERNAME = "khoatm20@gmail.com"
-#MAIL_PASSWORD = "qloj wxqc xbdy vrgl"
+[mail]
+MAIL_SERVER = "smtp.gmail.com"
+MAIL_PORT = 587
+MAIL_USE_TLS = true
+MAIL_USERNAME = "your_email@gmail.com"
+MAIL_PASSWORD = "your_email_password"

@@ -25,7 +25,7 @@ def register():
             update(user)
 
             # Save OTP to Redis with a 5-minute expiration
-            redis_client.setex(f"user:{user.id}", 300, user.___json__())  # 300 seconds = 5 minutes
+            redis_client.setex(f"user_token:{user.id}", 300, token)  # 300 seconds = 5 minutes
 
             subject = 'Email Verification'
             body = render_template('verification_mail.html', token=token, userId=user.id,

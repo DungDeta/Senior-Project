@@ -29,5 +29,8 @@ redis_client = redis.StrictRedis(host='localhost', port=config['redis']['REDIS_P
 with app.app_context():
     db.create_all()
 
+# Import and register routes
+from src.routes import register, login
+
 if __name__ == '__main__':
     app.run()

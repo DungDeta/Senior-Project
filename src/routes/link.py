@@ -1,9 +1,9 @@
 from flask import request, session, redirect, Blueprint, render_template
 
-from flaskr.app import bcrypt
-from flaskr.models.models import Link
-from flaskr.services.link_services import add, is_alias_exits, link_by_id, update, delete
-from flaskr.utils.utils import generate_alias, generate_id, convert_user_id_json_to_user_id
+from src.app import bcrypt
+from src.models.models import Link
+from src.services.link_services import add, is_alias_exits, link_by_id, update, delete
+from src.utils.utils import generate_alias, generate_id, convert_user_id_json_to_user_id
 
 link_blueprint = Blueprint('links', __name__, template_folder='/templates', url_prefix='/links')
 
@@ -117,4 +117,3 @@ def check_shorten_link_password():
         return redirect(link.url)
 
     return render_template('redirect_shorten_link.html', link_id=link.id, error_message='Password is invalid')
-

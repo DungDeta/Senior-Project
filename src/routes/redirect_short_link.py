@@ -1,7 +1,8 @@
 from flask import redirect, render_template, request
-from flaskr.app import app
-from flaskr.services.link_services import link_by_alias
-from flaskr.services.link_services import update
+
+from src.app import app
+from src.services.link_services import link_by_alias
+from src.services.link_services import update
 
 
 @app.route('/<string:alias>', methods=['GET'])

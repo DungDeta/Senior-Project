@@ -1,4 +1,5 @@
 from operator import or_
+
 from src.app import db, bcrypt
 from src.models.models import User
 

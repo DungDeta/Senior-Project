@@ -1,6 +1,6 @@
 [default]
-DEBUG = true
-
+debug = true
+SECRET_KEY = "my_key_project"
 [mysql]
 MYSQL_PASSWORD = "root1234"
 MYSQL_HOST = "localhost"

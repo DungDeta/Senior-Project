@@ -1,10 +1,13 @@
 import secrets
+
 from flask import render_template, request, redirect, session
 from flask_mail import Message
+
 from src.app import app, bcrypt, redis_client, mail
 from src.models.models import User
 from src.services.user_services import add, check_duplicate, update
 from src.utils.utils import generate_id, generate_verification_token, generate_expiration_timestamp
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

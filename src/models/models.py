@@ -1,7 +1,5 @@
-from app import db
+from src.app import db
 
-
-from app import db
 
 class Link(db.Model):
     id = db.Column(db.String(255), primary_key=True)
@@ -20,6 +18,7 @@ class Link(db.Model):
         self.user_id = user_id
         self.click_times = 0
         self.is_phishing = False
+
 
 class User(db.Model):
     id = db.Column(db.String(255), primary_key=True)
@@ -46,6 +45,8 @@ class User(db.Model):
         return {
             'id': self.id
         }
+
+
 class Advertisement(db.Model):
     id = db.Column(db.String(255), primary_key=True)
     title = db.Column(db.String(255), nullable=False)

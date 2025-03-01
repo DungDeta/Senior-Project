@@ -1,9 +1,10 @@
 from flask import render_template, session, redirect, request
-from flaskr.app import app
-from flaskr.services.link_services import count_short_link_per_user, get_links_per_user_paginate, \
+
+from src.app import app
+from src.services.link_services import count_short_link_per_user, get_links_per_user_paginate, \
     search_list_per_user_paginate
-from flaskr.services.user_services import user_by_id
-from flaskr.utils.utils import convert_user_id_json_to_user_id
+from src.services.user_services import user_by_id
+from src.utils.utils import convert_user_id_json_to_user_id
 
 
 @app.route('/home/<int:page>', methods=['GET', 'POST'])

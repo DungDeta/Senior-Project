@@ -1,4 +1,5 @@
 from flask import Blueprint, session, render_template, redirect, request
+
 from src.app import redis_client
 from src.services.user_services import user_by_id, update
 from src.utils.utils import convert_user_id_json_to_user_id, get_current_timestamp
@@ -26,7 +27,7 @@ def verify_mailbox(user_id):
         token = request.args.get('token')
         expires = int(request.args.get('expires'))
 
-        redis_token = redis_client.get(f"user_token:{user_id}") # Lấy token từ redis
+        redis_token = redis_client.get(f"user_token:{user_id}")  # Lấy token từ redis
         if redis_token == token and get_current_timestamp() < expires:
             user.is_verified = True
             update(user)

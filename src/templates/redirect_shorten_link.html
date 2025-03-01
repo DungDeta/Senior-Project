@@ -16,24 +16,26 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5 text-center" id="linkPasswordModal">{% if link_id is not none %}Link password{% else %}Warning{% endif %}</h1>
+                <h1 class="modal-title fs-5 text-center" id="linkPasswordModal">{% if link_id is not none %}Link
+                    password{% else %}Warning{% endif %}</h1>
             </div>
             <form action="/links/check_password" method="post">
                 <div class="modal-body">
                     <p class="text-center text-danger">{{ error_message }}</p>
                     {% if link_id is not none %}
-                    <div class="form-floating">
-                        <input type="password" class="form-control" id="password" name="password" placeholder=""
-                               required>
-                        <label for="floatingPassword">Password</label>
-                    </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="password" name="password" placeholder=""
+                                   required>
+                            <label for="floatingPassword">Password</label>
+                        </div>
                     {% endif %}
                 </div>
                 <div class="modal-footer">
                     {% if link_id is not none %}
-                    <button type="submit" id="id" name="id" value="{{ link_id }}" class="btn btn-success">Enter</button>
+                        <button type="submit" id="id" name="id" value="{{ link_id }}" class="btn btn-success">Enter
+                        </button>
                     {% else %}
-                    <a class="btn btn-success" type="button" href="{{ url }}">Return</a>
+                        <a class="btn btn-success" type="button" href="{{ url }}">Return</a>
                     {% endif %}
                 </div>
             </form>

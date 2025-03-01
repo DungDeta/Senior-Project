@@ -1,5 +1,6 @@
 from flask import Blueprint, session, redirect, request
-from flaskr.services.user_services import user_by_id, update, delete
+
+from src.services.user_services import user_by_id, update, delete
 
 user_blueprint = Blueprint('user', __name__, template_folder='/templates', url_prefix='/user')
 

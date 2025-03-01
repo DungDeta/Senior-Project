@@ -1,8 +1,9 @@
 from flask import render_template, session, redirect, request
-from flaskr.app import app
-from flaskr.services.user_services import user_by_id, get_user_list_paginate, count_user, count_administrator, \
+
+from src.app import app
+from src.services.user_services import user_by_id, get_user_list_paginate, count_user, count_administrator, \
     count_blocked_user, search_list_paginate
-from flaskr.utils.utils import convert_user_id_json_to_user_id
+from src.utils.utils import convert_user_id_json_to_user_id
 
 
 @app.route('/user_management/<int:page>', methods=['GET', 'POST'])

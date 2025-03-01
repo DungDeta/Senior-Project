@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Links-192.168.1.64</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+</head>
+
+<body class="bg-success">
+<div class="container text-center">
+    <h1>192.168.1.64</h1>
+    <h2>Url shortener</h2>
+</div>
+<div class="container my-3">
+    <form class="mx-auto bg-success-subtle w-50 p-4" method="post" action="/">
+        <h3 class="text-center">Welcome back!</h3>
+        <p class="text-center text-danger">{{ error_message }}</p>
+        <div class="my-3">
+            <input type="text" class="form-control form-control-lg" name="username" id="username"
+                   placeholder="Email or Username"
+                   required>
+        </div>
+        <div>
+            <input type="password" class="form-control form-control-lg" name="password" id="password"
+                   placeholder="Password" required>
+            <a class="my-1 link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover fs-6"
+               href="#">Forgot your password?</a>
+        </div>
+        <div class="my-lg-3">
+            <button type="submit" class="btn btn-success w-100 btn-lg">Log in</button>
+            <p class="fs-6 text-secondary">Need an account? <a class="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="/register">Register</a></p>
+        </div>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>

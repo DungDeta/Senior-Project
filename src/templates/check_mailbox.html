@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Links-192.168.1.64</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+</head>
+
+<body class="bg-success">
+<div class="container text-center">
+    <h1>192.168.1.64</h1>
+    <h2>Url shortener</h2>
+</div>
+<div class="container my-3">
+    <div class="row justify-content-center mx-auto bg-success-subtle w-50 p-4">
+        <img src="{{ url_for('static', filename='img/email-verification-icon.svg') }}" alt="email-verification-icon" class
+             style="height: 264px; width: 264px"/>
+        <div class="w-100"></div>
+        <div class="text-wrap text-center text-break" style="width: 20rem;">
+            <p class="fs-3 fw-bold">Check your mailbox!</p>
+            <p class="fs-6">We sent you a link to verify your email. Check your spam folder if you do not hear from us
+                after a while.</p>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>

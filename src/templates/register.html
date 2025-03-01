@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Links-192.168.1.64</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+</head>
+
+<body class="bg-success">
+<div class="container text-center">
+    <h1>192.168.1.64</h1>
+    <h2>Url shortener</h2>
+</div>
+<div class="container my-3">
+    <form class="mx-auto bg-success-subtle w-50 p-4" action="/register" method="post">
+        <h3 class="text-center">Create an account</h3>
+        <p class="text-center text-danger">{{ error_message }}</p>
+        <div class="my-3">
+            <input type="text" class="form-control form-control-lg" id="username" name="username"
+                   aria-describedby="username"
+                   placeholder="Username" required>
+        </div>
+        <div class="my-3">
+            <input type="email" class="form-control form-control-lg" id="email" name="email" aria-describedby="email"
+                   placeholder="Email" required>
+        </div>
+        <div class="my-3">
+            <input type="password" class="form-control form-control-lg" id="password" name="password"
+                   placeholder="Password" required>
+        </div>
+        <div>
+            <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword"
+                   placeholder="Confirm password" required>
+        </div>
+        <div class="my-lg-3">
+            <button type="submit" class="btn btn-success w-100 btn-lg">Sign up</button>
+            <a class="link-primary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+               href="/">Already have an account?</a>
+        </div>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>

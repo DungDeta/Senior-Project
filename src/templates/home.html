@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Links-192.168.1.64</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-xxl navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand" href="/home/1">192.168.1.64</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home/1">Links</a>
+                </li>
+                {% if user.is_administrator %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/user_management/1">User management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/link_management/1">Link management</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{{ url_for('static', filename='img/user-128.png') }}" alt="Avatar logo"
+                             class="rounded-circle"
+                             style="height: 25px; width: 25px"/><span class="btn text-light">{{ user.username }}</span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form>
+                                <button class="btn dropdown-item" type="submit" formaction="/user/logout"
+                                        formmethod="post">
+                                    Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-3">
+    <div class="row g-3">
+        <form class="col-9">
+            <div class="input-group">
+                <input type="url" class="form-control" name="url" placeholder="Enter a link to shorten it"
+                       aria-label="Shorten" required/>
+                <input type="text" aria-label="alias" name="alias" class="form-control"
+                       placeholder="Enter alias (optional)">
+                <span class="input-group-text p-0 m-0 border-0"><button class="btn btn-success rounded-0 rounded-end"
+                                                                        type="submit" formaction="/links/shorten"
+                                                                        formmethod="post">Shorten</button></span>
+            </div>
+        </form>
+
+        <form class="col-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search links" aria-label="Search" name="keyword"
+                       value="{{ keyword }}"/>
+                <span class="input-group-text p-0 m-0 border-0"><button class="btn btn-success rounded-0 rounded-end"
+                                                                        type="submit" formaction="/home/1"
+                                                                        formmethod="post"><img
+                        src="{{ url_for('static', filename='img/search.svg') }}" alt=""></button></span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-3">
+        <div class="col-9">
+            <div class="table-responsive">
+                <table class="table text-start table-hover">
+                    <tbody>
+                    {% for link in links.items %}
+                        <tr class="align-middle">
+                            <td class="text-center">{{ loop.index }}</td>
+                            <td>
+                                <p class="m-0 fs-4"><a href="/{{ link.alias }}"
+                                                       class="link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">192.168.1.64:5000/{{ link.alias }}</a>
+                                </p>
+
+                                <p class="m-0"><a href="{{ link.url }}"
+                                                  class="link-secondary link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ link.url }}</a>
+                                </p>
+                            </td>
+                            <td>{{ link.click_times }} clicks</td>
+                            <td>{{ user.username }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="{{ url_for('static', filename='img/gear-fill.svg') }}" alt=""/>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn" type="button" id="editLink" data-bs-toggle="modal"
+                                           data-bs-target="#editLinkModal" data-alias="{{ link.alias }}"
+                                           data-url="{{ link.url }}" data-id="{{ link.id }}">Edit</a>
+                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item btn" type="button" id="setPass" data-bs-toggle="modal"
+                                           data-bs-target="#passwordModal" data-pass="{{ link.password }}"
+                                           data-id="{{ link.id }}">Set/Change password</a>
+                                        <a class="dropdown-item btn {% if link.password is none %}disabled{% endif %}"
+                                           href="{{ url_for('links.delete_password', id=link.id) }}">Delete password</a>
+                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item btn"
+                                           href="{{ url_for('links.delete_link', id=link.id) }}">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if links.pages > 1 %}
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if not links.has_prev %}disabled{% endif %}">
+                            <a class="page-link" href="/home/{{ links.prev_num }}">Previous</a>
+                        </li>
+                        {% for num in links.iter_pages() %}
+                            <li class="page-item {% if num == links.page %}active{% endif %}">
+                                <a class="page-link" href="/home/{{ num }}">{% if num is none %}...{% else %}
+                                    {{ num }}{% endif %}</a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {% if not links.has_next %}disabled{% endif %}">
+                            <a class="page-link" href="/home/{{ links.next_num }}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+
+        <div class="col-3">
+            <div class="table-responsive">
+                <table class="table text-center table-hover">
+                    <thead>
+                    <tr class="table-info">
+                        <th scope="col" colspan="2">Stats</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row" class="text-start">Total short links:</th>
+                        <td class="text-end">{{ short_link_number }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Total clicks:</th>
+                        <td class="text-end">{{ total_click_times }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editLinkModal" tabindex="-1" aria-labelledby="editLinkModal"
+     aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editLinkModalLabel">Edit link</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/links/update" method="post">
+                <div class="modal-body">
+                    <div class="my-1">
+                        <label for="alias" class="form-label">Alias</label>
+                        <input type="text" class="form-control" id="alias" name="alias" aria-describedby="alias"
+                               placeholder="Enter alias" required>
+                    </div>
+                    <div>
+                        <label for="url" class="form-label">Url</label>
+                        <input type="url" class="form-control" id="url" name="url" placeholder="Enter url" required>
+                    </div>
+                    <input type="hidden" id="id1" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModal" aria-hidden="true"
+     data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="passwordModalLabel">Set password</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/links/change_password" method="post">
+                <div class="modal-body">
+                    <div>
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               aria-describedby="password"
+                               placeholder="Enter password" required>
+                    </div>
+                    <input type="hidden" id="id" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+
+<script>
+    // JavaScript code to handle modal display
+    $(document).ready(function () {
+        // Enable table row click as a link
+        $('a[id="setPass"]').on("click", function () {
+            // Get the data attributes of the clicked row
+            const pass = $(this).data('pass');
+            const id = $(this).data('id');
+            // Set the modal content based on the clicked row data
+            $('#id').val(id);
+
+            if (pass !== "None") {
+                $('#password').val(pass);
+            }
+
+            // Open the modal
+            $('#passwordModal').modal('show');
+        });
+    });
+</script>
+
+<script>
+    // JavaScript code to handle modal display
+    $(document).ready(function () {
+        // Enable table row click as a link
+        $('a[id="editLink"]').on("click", function () {
+            // Get the data attributes of the clicked row
+            const alias = $(this).data('alias');
+            const url = $(this).data('url');
+            const id = $(this).data('id');
+
+            // Set the modal content based on the clicked row data
+            $('#alias').val(alias);
+            $('#url').val(url);
+            $('#id1').val(id);
+
+            // Open the modal
+            $('#editLinkModal').modal('show');
+        });
+    });
+</script>
+</body>
+</html>

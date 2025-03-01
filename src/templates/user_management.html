@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Links-192.168.1.64</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-xxl navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand" href="/home/1">192.168.1.64</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/home/1">Links</a>
+                </li>
+                {% if current_user.is_administrator %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user_management/1">User management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/link_management/1">Link management</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{{ url_for('static', filename='img/user-128.png') }}" alt="Avatar logo"
+                             class="rounded-circle" style="height: 25px; width: 25px"/><span
+                            class="btn text-light">{{ current_user.username }}</span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form>
+                                <button class="btn dropdown-item" type="submit" formaction="/user/logout"
+                                        formmethod="post">
+                                    Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-3">
+    <form class="row g-3">
+        <div class="col-9">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search users" name="keyword" value="{{ keyword }}"
+                       aria-label=""/>
+                <button class="btn btn-success" type="submit" formmethod="post" formaction="/user_management/1"><img
+                        src="{{ url_for('static', filename='img/search.svg') }}" alt="search icon"></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row g-3">
+        <div class="col-9">
+            <div class="table-responsive">
+                <table class="table text-start table-hover">
+                    <thead>
+                    <th scope="col">User</th>
+                    <th scope="col">Is administrator</th>
+                    <th scope="col">Is blocked</th>
+                    <th scope="col">Action</th>
+                    </thead>
+                    <tbody>
+                    {% for user in users.items %}
+                        <tr class="align-middle">
+                            <td>
+                                <p class="m-0 fs-4">{{ user.username }}</p>
+                                <p class="m-0 text-body-secondary">{{ user.email }}</p>
+                            </td>
+                            <td>{% if user.is_administrator %}Yes{% else %}No{% endif %}</td>
+                            <td>{% if user.is_block %}Yes{% else %}No{% endif %}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="{{ url_for('static', filename='img/gear-fill.svg') }}"
+                                             alt="setting icon"/>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn" type="button" id="editUser" data-bs-toggle="modal"
+                                           data-bs-target="#editUserModal" data-username="{{ user.username }}"
+                                           data-email="{{ user.email }}" data-id="{{ user.id }}">Edit</a>
+                                        <a class="dropdown-item">Reset password</a>
+                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
+                                           href="{{ url_for('user.mark_administrator', id=user.id) }}">
+                                            {% if not user.is_administrator %}Make administrator{% else %}Remove
+                                                administrator{% endif %}</a>
+                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
+                                           href="{{ url_for("user.block_user", id=user.id) }}">
+                                            {% if not user.is_block %}Block{% else %}Unblock{% endif %}</a>
+                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
+                                           href="{{ url_for("user.delete_user", id=user.id) }}">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if users.pages > 1 %}
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if not users.has_prev %}disabled{% endif %}">
+                            <a class="page-link" href="/user_management/{{ users.prev_num }}">Previous</a>
+                        </li>
+                        {% for num in users.iter_pages() %}
+                            <li class="page-item {% if num == users.page %}active{% endif %}"><a class="page-link"
+                                                                                                 href="/user_management/{{ num }}">
+                                {% if num is none %}...{% else %}{{ num }}{% endif %}</a></li>
+                        {% endfor %}
+                        <li class="page-item {% if not users.has_next %}disabled{% endif %}">
+                            <a class="page-link" href="/link_management/{{ users.next_num }}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+
+        <div class="col-3">
+            <div class="table-responsive">
+                <table class="table text-center table-hover">
+                    <thead>
+                    <tr class="table-info">
+                        <th scope="col" colspan="2">Stats</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row" class="text-start">Total administrator:</th>
+                        <td class="text-end">{{ administrator_number }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Total users:</th>
+                        <td class="text-end">{{ user_number }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Total blocked users:</th>
+                        <td class="text-end">{{ blocked_user_number }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModal" aria-hidden="true"
+     data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editUserModalLabel">Edit User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/user/update" method="post">
+                <div class="modal-body">
+                    <div class="my-1">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username"
+                               aria-describedby="username" placeholder="Enter username" required>
+                    </div>
+                    <div>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"
+                               required>
+                    </div>
+                    <input type="hidden" id="id" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+
+<script>
+    // JavaScript code to handle modal display
+    $(document).ready(function () {
+        // Enable table row click as a link
+        $('a[id="editUser"]').on("click", function () {
+            // Get the data attributes of the clicked row
+            const username = $(this).data('username');
+            const email = $(this).data('email');
+            const id = $(this).data('id');
+
+            // Set the modal content based on the clicked row data
+            $('#username').val(username);
+            $('#email').val(email);
+            $('#id').val(id);
+
+            // Open the modal
+            $('#editUserModal').modal('show');
+        });
+    });
+</script>
+</body>
+</html>

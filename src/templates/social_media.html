@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Social Links - 192.168.1.64</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-xxl navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand" href="/home/1">192.168.1.64</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/home/1">Links</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/social_media/1">Social Links</a>
+                </li>
+                {% if user and user.is_administrator %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/user_management/1">User management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/link_management/1">Link management</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" aria-current="page" href="/advertisement_management/1">Advertisement
+                            management</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{{ url_for('static', filename='img/user-128.png') }}" alt="Avatar logo"
+                             class="rounded-circle"
+                             style="height: 25px; width: 25px"/><span class="btn text-light">{% if user %}{{ user.username }}{% else %}Guest{% endif %}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% if user %}
+                            <li>
+                                <form>
+                                    <button class="btn dropdown-item" type="submit" formaction="/user/logout"
+                                            formmethod="post">
+                                        Log out
+                                    </button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="/login">Login</a></li>
+                            <li><a class="dropdown-item" href="/register">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-3">
+    <h2>Social Media Links</h2>
+    <p class="text-muted">Browse all public links shared by our community</p>
+    <form class="row g-3">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search links" name="keyword" value="{{ keyword }}"
+                       aria-label=""/>
+                <span class="input-group-text p-0 m-0 border-0">
+                    <button class="btn btn-success rounded-0 rounded-end" type="submit" formaction="/social_media/1"
+                            formmethod="post">
+                        <img src="{{ url_for('static', filename='img/search.svg') }}" alt="Search">
+                    </button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for link in links.items %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 {% if link.is_phishing %}border-danger{% endif %}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="/{{ link.alias }}" class="text-decoration-none">
+                                192.168.1.64:5000/{{ link.alias }}
+                            </a>
+                        </h5>
+                        <p class="card-text text-truncate">
+                            <a href="{{ link.url }}" class="text-muted small text-decoration-none">{{ link.url }}</a>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="/{{ link.alias }}" class="btn btn-sm btn-outline-success">Visit</a>
+                                {% if link.is_phishing %}
+                                    <span class="btn btn-sm btn-outline-danger disabled">Flagged</span>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">{{ link.click_times }} clicks</small>
+                        </div>
+                        <p class="card-text mt-2">
+                            <small class="text-muted">Shared by: {{ link.user.username }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if links.pages > 1 %}
+        <nav aria-label="Page navigation" class="my-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not links.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="/social_media/{{ links.prev_num }}">Previous</a>
+                </li>
+                {% for num in links.iter_pages() %}
+                    <li class="page-item {% if num == links.page %}active{% endif %}">
+                        <a class="page-link" href="/social_media/{{ num }}">
+                            {% if num is none %}...{% else %}{{ num }}{% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {% if not links.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="/social_media/{{ links.next_num }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+</body>
+</html>

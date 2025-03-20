@@ -70,3 +70,6 @@ def search_list_per_user_paginate(keyword, page, user):
 
 def get_links_per_user_paginate(user, page):
     return Link.query.filter(Link.user == user).paginate(page=page, per_page=10)
+
+def get_link_list_paginate(page):
+    return Link.query.filter(Link.password is None).paginate(page=page, per_page=10)

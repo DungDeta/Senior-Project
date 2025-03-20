@@ -43,11 +43,14 @@ from src.routes.redirect_short_link import redirect_short_link
 from src.routes.user import user_blueprint
 from src.routes.link import link_blueprint
 from src.routes.mail import mail_blueprint
-
+from src.routes.advertisement import advertisement_blueprint
+from src.routes.social_media import social_media_blueprint
 # Đăng ký các blueprint
 app.register_blueprint(user_blueprint)
 app.register_blueprint(link_blueprint)
 app.register_blueprint(mail_blueprint)
+app.register_blueprint(advertisement_blueprint)
+app.register_blueprint(social_media_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)

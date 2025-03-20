@@ -8,10 +8,14 @@ from src.routes.redirect_short_link import redirect_short_link
 from src.routes.user import user_blueprint
 from src.routes.link import link_blueprint
 from src.routes.mail import mail_blueprint
+from src.routes.advertisement import advertisement_blueprint
+from src.routes.social_media import social_media_blueprint
 
+app.register_blueprint(social_media_blueprint, name='social_media_blueprint')
 app.register_blueprint(user_blueprint, name='user_blueprint')
 app.register_blueprint(link_blueprint, name='link_blueprint')
 app.register_blueprint(mail_blueprint, name='mail_blueprint')
+app.register_blueprint(advertisement_blueprint, name='advertisement_blueprint')
 
 if __name__ == "__main__":
     with app.app_context():

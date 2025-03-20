@@ -109,16 +109,16 @@
                                            data-email="{{ user.email }}" data-id="{{ user.id }}">Edit</a>
                                         <a class="dropdown-item">Reset password</a>
                                         <hr class="dropdown-divider">
-                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
+                                        <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
                                            href="{{ url_for('user.mark_administrator', id=user.id) }}">
                                             {% if not user.is_administrator %}Make administrator{% else %}Remove
                                                 administrator{% endif %}
                                         </a>
-                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
+                                        <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
                                            href="{{ url_for('user.block_user', id=user.id) }}">
                                             {% if not user.is_blocked %}Block{% else %}Unblock{% endif %}
                                         </a>
-                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
+                                        <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
                                            href="{{ url_for('user.delete_user', id=user.id) }}">Delete</a>
                                     </div>
                                 </div>

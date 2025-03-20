@@ -37,6 +37,7 @@ with app.app_context():
 from src.routes.homepage import homepage
 from src.routes.user_management import user_management
 from src.routes.link_management import link_management
+from src.routes.advertisement_management import advertisement_management
 from src.routes.login import login
 from src.routes.register import register
 from src.routes.redirect_short_link import redirect_short_link

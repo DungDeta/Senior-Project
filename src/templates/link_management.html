@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/home/1">Links</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/social_media/1">Social Media</a>
+                </li>
                 {% if user.is_administrator %}
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/user_management/1">User management</a>
@@ -31,7 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/link_management/1">Link management</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link" aria-current="page" href="/advertisement_management/1">Advertisement
                             management</a>
                     </li>
@@ -43,8 +46,7 @@
                        aria-expanded="false">
                         <img src="{{ url_for('static', filename='img/user-128.png') }}" alt="Avatar logo"
                              class="rounded-circle"
-                             style="height: 25px; width: 25px"/><span class="btn text-light">{{ user.username }}</span>
-                    </a>
+                             style="height: 25px; width: 25px"/><span class="btn text-light">{{ user.username }}</span></a>
                     <ul class="dropdown-menu">
                         <li>
                             <form>

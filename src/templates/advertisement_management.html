@@ -2,10 +2,13 @@
 <html lang="en">
 
 <head>
-    <title>Advertisement Management</title>
+    <title>Advertisement Management - 192.168.1.64</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
 </head>
 
 <body>
@@ -19,10 +22,40 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/home/1">Home</a>
+                    <a class="nav-link" aria-current="page" href="/home/1">Links</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/advertisement_management/1">Advertisement Management</a>
+                    <a class="nav-link" aria-current="page" href="/social_media/1">Social Links</a>
+                </li>
+                {% if user.is_administrator %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/user_management/1">User management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/link_management/1">Link management</a>
+                    </li>
+                    <li>
+                        <a class="nav-link active" aria-current="page" href="/advertisement_management/1">Advertisement management</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{{ url_for('static', filename='img/user-128.png') }}" alt="Avatar logo"
+                             class="rounded-circle" style="height: 25px; width: 25px"/><span
+                            class="btn text-light">{{ user.username }}</span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form>
+                                <button class="btn dropdown-item" type="submit" formaction="/user/logout"
+                                        formmethod="post">
+                                    Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -30,41 +63,118 @@
 </nav>
 
 <div class="container my-3">
-    <h2>Advertisement Management</h2>
-    <div class="table-responsive">
-        <table class="table text-start table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Image</th>
-                <th scope="col">URL</th>
-                <th scope="col">Expiration Date</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for ad in advertisements.items %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ ad.title }}</td>
-                    <td>{{ ad.description }}</td>
-                    <td><img src="{{ ad.image }}" alt="Ad Image" style="width: 50px; height: 50px;"></td>
-                    <td><a href="{{ ad.url }}" target="_blank">{{ ad.url }}</a></td>
-                    <td>{{ ad.expiration_date }}</td>
-                    <td>
-                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAdModal" data-id="{{ ad.id }}" data-title="{{ ad.title }}" data-description="{{ ad.description }}" data-image="{{ ad.image }}" data-url="{{ ad.url }}" data-expiration="{{ ad.expiration_date }}">Edit</a>
-                        <a href="/advertisement/delete?id={{ ad.id }}" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAdModal">Add Advertisement</button>
+    <form class="row g-3">
+        <div class="col-9">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search advertisements" name="keyword" value="{{ keyword|default('') }}"
+                       aria-label=""/>
+                <button class="btn btn-success" type="submit" formmethod="post" formaction="/advertisement_management/1"><img
+                        src="{{ url_for('static', filename='img/search.svg') }}" alt="search icon"></button>
+            </div>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#addAdModal">
+                Add Advertisement
+            </button>
+        </div>
+    </form>
 </div>
 
+<div class="container">
+    <div class="row g-3">
+        <div class="col-9">
+            <div class="table-responsive">
+                <table class="table text-start table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">URL</th>
+                        <th scope="col">Expiration Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ad in advertisements.items %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ ad.title }}</td>
+                            <td>{{ ad.description }}</td>
+                            <td><img src="{{ ad.image }}" alt="Ad Image" style="width: 50px; height: 50px;"></td>
+                            <td><a href="{{ ad.url }}" target="_blank" class="text-truncate d-inline-block" style="max-width: 150px;">{{ ad.url }}</a></td>
+                            <td>{{ ad.expiration_date }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="{{ url_for('static', filename='img/gear-fill.svg') }}" alt="setting icon"/>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editAdModal"
+                                           data-id="{{ ad.id }}" data-title="{{ ad.title }}"
+                                           data-description="{{ ad.description }}" data-image="{{ ad.image }}"
+                                           data-url="{{ ad.url }}" data-expiration="{{ ad.expiration_date }}">Edit</a>
+                                        <a class="dropdown-item" href="/advertisement/delete?id={{ ad.id }}">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if advertisements.pages > 1 %}
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if not advertisements.has_prev %}disabled{% endif %}">
+                            <a class="page-link" href="/advertisement_management/{{ advertisements.prev_num }}">Previous</a>
+                        </li>
+                        {% for num in advertisements.iter_pages() %}
+                            <li class="page-item {% if num == advertisements.page %}active{% endif %}">
+                                <a class="page-link" href="/advertisement_management/{{ num }}">
+                                    {% if num is none %}...{% else %}{{ num }}{% endif %}</a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {% if not advertisements.has_next %}disabled{% endif %}">
+                            <a class="page-link" href="/advertisement_management/{{ advertisements.next_num }}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+
+        <div class="col-3">
+            <div class="table-responsive">
+                <table class="table text-center table-hover">
+                    <thead>
+                    <tr class="table-info">
+                        <th scope="col" colspan="2">Stats</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row" class="text-start">Total Advertisements:</th>
+                        <td class="text-end">{{ advertisements.total }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Active Advertisements:</th>
+                        <td class="text-end">{{ advertisements.total }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Expired Advertisements:</th>
+                        <td class="text-end">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Advertisement Modal -->
 <div class="modal fade" id="addAdModal" tabindex="-1" aria-labelledby="addAdModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

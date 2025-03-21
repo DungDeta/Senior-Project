@@ -2,10 +2,14 @@
 debug = true
 SECRET_KEY = "my_key_project"
 [mysql]
-MYSQL_PASSWORD = "root1234"
+#MYSQL_PASSWORD = "root1234"
+#MYSQL_HOST = "localhost"
+#MYSQL_PORT = 33306
+#MYSQL_DATABASE = "senior_project"
+MYSQL_PASSWORD = "12345678"
 MYSQL_HOST = "localhost"
 MYSQL_PORT = 3306
-MYSQL_DATABASE = "senior_project"
+MYSQL_DATABASE = "url_shortener"
 
 [redis]
 REDIS_PORT = 6379
@@ -13,5 +17,6 @@ REDIS_PORT = 6379
 MAIL_SERVER = "smtp.gmail.com"
 MAIL_PORT = 587
 MAIL_USE_TLS = true
-MAIL_USERNAME = "your_email@gmail.com"
-MAIL_PASSWORD = "your_email_password"
+MAIL_USE_SSL = false
+MAIL_USERNAME = "khoatm20@gmail.com"
+MAIL_PASSWORD = "zylp qqql oynu rylk"

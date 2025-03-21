@@ -110,16 +110,16 @@
                                         <a class="dropdown-item">Reset password</a>
                                         <hr class="dropdown-divider">
                                         <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
-                                           href="{{ url_for('user.mark_administrator', id=user.id) }}">
+                                           href="{{ url_for('user_blueprint.mark_administrator', id=user.id) }}">
                                             {% if not user.is_administrator %}Make administrator{% else %}Remove
                                                 administrator{% endif %}
                                         </a>
                                         <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
-                                           href="{{ url_for('user.block_user', id=user.id) }}">
+                                           href="{{ url_for('user_blueprint.block_user', id=user.id) }}">
                                             {% if not user.is_blocked %}Block{% else %}Unblock{% endif %}
                                         </a>
                                         <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
-                                           href="{{ url_for('user.delete_user', id=user.id) }}">Delete</a>
+                                           href="{{ url_for('user_blueprint.delete_user', id=user.id) }}">Delete</a>
                                     </div>
                                 </div>
                             </td>

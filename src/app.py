@@ -13,8 +13,8 @@ STATIC_DIR = os.path.abspath('src/static')
 config_path = os.path.join(os.path.dirname(__file__), 'config.toml')
 config = toml.load(config_path)
 app.config.update(config['default'])
-app.config[
-    'SQLALCHEMY_DATABASE_URI'] = f"mysql://root:{config['mysql']['MYSQL_PASSWORD']}@localhost:{config['mysql']['MYSQL_PORT']}/{config['mysql']['MYSQL_DATABASE']}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://root:{config['mysql']['MYSQL_PASSWORD']}@{config['mysql']['MYSQL_HOST']}:{config['mysql']['MYSQL_PORT']}/{config['mysql']['MYSQL_DATABASE']}"
+
 
 app.config['MAIL_SERVER'] = config['mail']['MAIL_SERVER']
 app.config['MAIL_PORT'] = config['mail']['MAIL_PORT']

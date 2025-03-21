@@ -10,7 +10,7 @@ from src.routes.link import link_blueprint
 from src.routes.mail import mail_blueprint
 from src.routes.advertisement import advertisement_blueprint
 from src.routes.social_media import social_media_blueprint
-
+from src.routes.advertisement_management import advertisement_management
 app.register_blueprint(social_media_blueprint, name='social_media_blueprint')
 app.register_blueprint(user_blueprint, name='user_blueprint')
 app.register_blueprint(link_blueprint, name='link_blueprint')

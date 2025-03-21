@@ -1,2 +1,8 @@
 Flask==3.0.2
 Flask-SQLAlchemy==3.1.1
+toml
+flask_bcrypt
+flask_mail
+redis
+sqlalchemy
+mysqlclient

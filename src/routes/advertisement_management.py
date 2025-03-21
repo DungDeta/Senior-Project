@@ -12,9 +12,13 @@ def advertisement_management(page):
         user_id_json = session['userId']
         user_id = convert_user_id_json_to_user_id(user_id_json)
         user = user_by_id(user_id)
+        keyword = ''
 
         if user.is_administrator:
             advertisements = get_advertisements_paginate(page)
-            return render_template('advertisement_management.html', user=user, advertisements=advertisements)
+            return render_template('advertisement_management.html',
+                                   user=user,
+                                   advertisements=advertisements,
+                                   keyword=keyword)
 
     return redirect('/home/1')

@@ -4,3 +4,7 @@ docker_build:
 
 docker_stop:
 	docker-compose down
+dev:
+	docker-compose up -d
+	docker-compose ps
+	python main.py

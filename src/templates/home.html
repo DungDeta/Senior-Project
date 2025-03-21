@@ -2,19 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Links-192.168.1.64</title>
+    <title>ktmly</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-xxl navbar-dark bg-success">
     <div class="container">
-        <a class="navbar-brand" href="/home/1">192.168.1.64</a>
+        <a class="navbar-brand" href="/home/1">ktmly</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -101,7 +98,7 @@
                             <td class="text-center">{{ loop.index }}</td>
                             <td>
                                 <p class="m-0 fs-4"><a href="/{{ link.alias }}"
-                                                       class="link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">192.168.1.64:5000/{{ link.alias }}</a>
+                                                       class="link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">ktmly.ddns.net/{{ link.alias }}</a>
                                 </p>
 
                                 <p class="m-0"><a href="{{ link.url }}"
@@ -125,10 +122,10 @@
                                            data-bs-target="#passwordModal" data-pass="{{ link.password }}"
                                            data-id="{{ link.id }}">Set/Change password</a>
                                         <a class="dropdown-item btn {% if link.password is none %}disabled{% endif %}"
-                                           href="{{ url_for('links.delete_password', id=link.id) }}">Delete password</a>
+                                           href="{{ url_for('link_blueprint.delete_password', id=link.id) }}">Delete password</a>
                                         <hr class="dropdown-divider">
                                         <a class="dropdown-item btn"
-                                           href="{{ url_for('links.delete_link', id=link.id) }}">Delete</a>
+                                           href="{{ url_for('link_blueprint.delete_link', id=link.id) }}">Delete</a>
                                     </div>
                                 </div>
                             </td>

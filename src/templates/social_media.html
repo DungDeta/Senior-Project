@@ -2,19 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Social Links - 192.168.1.64</title>
+    <title>ktmly</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-xxl navbar-dark bg-success">
     <div class="container">
-        <a class="navbar-brand" href="/home/1">192.168.1.64</a>
+        <a class="navbar-brand" href="/home/1">ktmly</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -96,7 +93,7 @@
                     <div class="card-body">
                         <h5 class="card-title">
                             <a href="/{{ link.alias }}" class="text-decoration-none">
-                                192.168.1.64:5000/{{ link.alias }}
+                                ktmly.ddns.net/{{ link.alias }}
                             </a>
                         </h5>
                         <p class="card-text text-truncate">
@@ -104,7 +101,7 @@
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a href="/{{ link.alias }}" class="btn btn-sm btn-outline-success">Visit</a>
+                                <a href="/{{ link.alias }}" class="btn btn-sm btn-outline-success" disabled="true">Visit</a>
                                 {% if link.is_phishing %}
                                     <span class="btn btn-sm btn-outline-danger disabled">Flagged</span>
                                 {% endif %}

@@ -2,19 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Links-192.168.1.64</title>
+    <title>ktmly</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/img/favicon-16x16.png') }}">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-xxl navbar-dark bg-success">
     <div class="container">
-        <a class="navbar-brand" href="/home/1">192.168.1.64</a>
+        <a class="navbar-brand" href="/home/1">ktmly</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,7 +24,7 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/social_media/1">Social Media</a>
                 </li>
-                {% if user.is_administrator %}
+                {% if current_user.is_administrator %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/user_management/1">User management</a>
                     </li>
@@ -46,7 +43,7 @@
                        aria-expanded="false">
                         <img src="{{ url_for('static', filename='img/user-128.png') }}" alt="Avatar logo"
                              class="rounded-circle"
-                             style="height: 25px; width: 25px"/><span class="btn text-light">{{ user.username }}</span></a>
+                             style="height: 25px; width: 25px"/><span class="btn text-light">{{ current_user.username }}</span></a>
                     <ul class="dropdown-menu">
                         <li>
                             <form>
@@ -109,12 +106,12 @@
                                            data-email="{{ user.email }}" data-id="{{ user.id }}">Edit</a>
                                         <a class="dropdown-item">Reset password</a>
                                         <hr class="dropdown-divider">
-                                        <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
+                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
                                            href="{{ url_for('user_blueprint.mark_administrator', id=user.id) }}">
                                             {% if not user.is_administrator %}Make administrator{% else %}Remove
                                                 administrator{% endif %}
                                         </a>
-                                        <a class="dropdown-item btn {% if user.id == user.id %}disabled{% endif %}"
+                                        <a class="dropdown-item btn {% if user.id == current_user.id %}disabled{% endif %}"
                                            href="{{ url_for('user_blueprint.block_user', id=user.id) }}">
                                             {% if not user.is_blocked %}Block{% else %}Unblock{% endif %}
                                         </a>

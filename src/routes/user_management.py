@@ -28,7 +28,7 @@ def user_management(page):
         administrator_number = count_administrator()
         blocked_user_number = count_blocked_user()
         if user.is_administrator:
-            return render_template('user_management.html', user=user, users=users, user_number=user_number,
+            return render_template('user_management.html', current_user=user, users=users, user_number=user_number,
                                    administrator_number=administrator_number, blocked_user_number=blocked_user_number,
                                    keyword=keyword)
 

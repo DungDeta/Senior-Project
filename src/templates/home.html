@@ -119,8 +119,7 @@
                                            data-url="{{ link.url }}" data-id="{{ link.id }}">Edit</a>
                                         <hr class="dropdown-divider">
                                         <a class="dropdown-item btn" type="button" id="setPass" data-bs-toggle="modal"
-                                           data-bs-target="#passwordModal" data-pass="{{ link.password }}"
-                                           data-id="{{ link.id }}">Set/Change password</a>
+                                           data-bs-target="#passwordModal" data-id="{{ link.id }}">Set/Change password</a>
                                         <a class="dropdown-item btn {% if link.password is none %}disabled{% endif %}"
                                            href="{{ url_for('link_blueprint.delete_password', id=link.id) }}">Delete password</a>
                                         <hr class="dropdown-divider">
@@ -249,10 +248,6 @@
             const id = $(this).data('id');
             // Set the modal content based on the clicked row data
             $('#id').val(id);
-
-            if (pass !== "None") {
-                $('#password').val(pass);
-            }
 
             // Open the modal
             $('#passwordModal').modal('show');
